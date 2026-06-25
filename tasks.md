@@ -1,6 +1,6 @@
-- [ ] create the ER Diagram
-- [ ] initialize asp.net core webapp project with identity
-- [ ] use mariadb database with dbContext and setting up appsettings
+- [x] create the ER Diagram
+- [x] initialize asp.net core webapp project with identity
+- [x] use mariadb database with dbContext and setting up appsettings
 - [ ] implement the models and their data validation
   - [ ] data annotations such as [required], [minlength], [StringLength]
   - [ ] implement server side validation logic
