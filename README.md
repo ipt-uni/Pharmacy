@@ -13,3 +13,50 @@ Users must be able to enter the website and look for their specific medicines. S
 5. Signal R
 6. Graphic interface layout
 
+# ER Diagram
+
+```mermaid
+erDiagram
+
+Company || -- o{ Medicine : "Manufactures"
+Cart || -- o{ CartItems : "Contains"
+Medicine || -- o{ CartItems : "Is in"
+Supplier || -- o{ SupplierMedicineJunction : "Supplies"
+Medicine || -- o{ SupplierMedicineJunction : "Is Supplied"
+Payment o| -- || Cart : "Pays"
+
+Medicine{
+    id Integer PK
+    company_id int FK
+    name varchar(50)
+    retail_price decimal
+}
+Supplier{
+    id Integer PK
+    name varchar(50)
+}
+SupplierMedicineJunction{
+    supplier_id Integer PK,FK
+    medicine_id Integer PK,FK
+}
+Cart{
+    id Integer PK
+    total_cost decimal
+    total_quantity int
+}
+CartItems{
+    cart_id int PK,FK
+    medicine_id int PK,FK
+    quantity int
+}
+Payment{
+    id Integer PK
+    cart_id int FK
+    amount decimal
+}
+Company{
+    id Integer PK
+    name varchar(50)
+}
+
+```
