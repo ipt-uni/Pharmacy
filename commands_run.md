@@ -7,4 +7,5 @@ dotnet add package Microting.EntityFrameworkCore.MySql # For latest dotnet 10 an
 
 dotnet ef migrations add InitialMysqlCreate
 
+dotnet ef migrations add "Initial Implementation Of Models"
 ```
