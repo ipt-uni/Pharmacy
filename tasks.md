@@ -1,0 +1,15 @@
+- [ ] create the ER Diagram
+- [ ] initialize asp.net core webapp project with identity
+- [ ] use mariadb database with dbContext and setting up appsettings
+- [ ] implement the models and their data validation
+  - [ ] data annotations such as [required], [minlength], [StringLength]
+  - [ ] implement server side validation logic
+- [ ] create dbinitializer for easier testing
+- [ ] scaffold views for the required models
+- [ ] create the model DTOs
+- [ ] implement authentication and authorization
+- [ ] add mvc API controllers
+- [ ] add signal R
+  - [ ] use signal R for customer support
+
+- [ ] Error handling & custom error pages
