@@ -1,0 +1,25 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+namespace pharmacy.Data.Models;
+
+public class CartItem
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int CartId { get; set; }
+    public Cart? Cart { get; set; }
+
+    [Required]
+    [ForeignKey(nameof(Medicine))]
+    public int MedicineId { get; set; }
+    public Medicine Medicine { get; set; } = null!;
+
+    /// <summary>
+    /// The how many medicine to buy
+    /// </summary>
+    [Required]
+    public int Quantity { get; set; }
+
+}
