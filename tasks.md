@@ -1,7 +1,7 @@
 - [x] create the ER Diagram
 - [x] initialize asp.net core webapp project with identity
 - [x] use mariadb database with dbContext and setting up appsettings
-- [ ] scaffold medicines crud pages
+- [x] scaffold medicines crud pages
 - [ ] show medicine cards in Homepage
 - [ ] implement the models and their data validation
   - [ ] data annotations such as [required], [minlength], [StringLength]
