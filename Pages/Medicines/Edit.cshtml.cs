@@ -8,17 +8,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using pharmacy.Data;
 using pharmacy.Data.Models;
+using pharmacy.Services;
 
 namespace pharmacy.Pages.Medicines
 {
     public class EditModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
+        private readonly MedicineImageService _medicineImageService;
 
-        public EditModel(pharmacy.Data.ApplicationDbContext context)
+        public EditModel(
+            pharmacy.Data.ApplicationDbContext context,
+            MedicineImageService medicineImageService
+        )
         {
             _context = context;
+            _medicineImageService = medicineImageService;
         }
+
+        [BindProperty]
+        public string? ImageUrl { get; set; }
+
+        [BindProperty]
+        public IFormFile? ImageFile { get; set; }
 
         [BindProperty]
         public Medicine Medicine { get; set; } = default!;
@@ -30,13 +42,13 @@ namespace pharmacy.Pages.Medicines
                 return NotFound();
             }
 
-            var medicine =  await _context.Medicines.FirstOrDefaultAsync(m => m.Id == id);
+            var medicine = await _context.Medicines.FirstOrDefaultAsync(m => m.Id == id);
             if (medicine == null)
             {
                 return NotFound();
             }
             Medicine = medicine;
-           ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
             return Page();
         }
 
@@ -47,6 +59,16 @@ namespace pharmacy.Pages.Medicines
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+            var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
+            if (!result.Success)
+            {
+                ModelState.AddModelError(result.ErrorField, result.ErrorMessage);
+                return Page();
+            }
+            if (!string.IsNullOrEmpty(result.ImageSrc))
+            {
+                Medicine.imageSrc = result.ImageSrc;
             }
 
             _context.Attach(Medicine).State = EntityState.Modified;
