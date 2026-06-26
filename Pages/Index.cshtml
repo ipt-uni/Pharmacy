@@ -7,4 +7,52 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  </div>
+
+<!--
+1. We want to make a grid of cards for medicines
+2. each card should have the following information
+    - name
+    - company
+    - price
+    - image
+-->
+
+<div class="row row-cols-md-3 g-4">
+    @foreach (var item in Model.Medicines)
+    {
+        <div class="col">
+            <div class="card h-100">
+                @if (!string.IsNullOrEmpty(item.imageSrc))
+                {
+                    <img src="@item.imageSrc"  alt="@item.Name" 
+                         style="height: 200px; object-fit: contain;" />
+                }
+                else
+                {
+                    <div class="bg-light d-flex align-items-center justify-content-center" 
+                         style="height: 200px;">
+                        <p class="text-muted fs-1">@item.Name</p>
+                    </div>
+                }
+                <div class="card-body">
+                    <h4 class="fw-bold">@item.Name</h4>
+                    <p class="text-muted small mb-3">
+                        <i class="bi bi-building">@item.Company?.Name</i> 
+                    </p>
+                    <h3 class="text-primary fw-bold mb-3">@item.RetailPrice.ToString("C")</h3>
+                    <p class="card-text small text-muted mb-0">
+                        @item.Suppliers.Count supplier@(item.Suppliers.Count != 1 ? "s" : "")
+                    </p>
+                </div>
+                <div class="card-footer bg-white border-0 pt-0">
+                    <a asp-page="Medicines/Details" asp-route-id="@item.Id"
+                       class="btn btn-primary w-100">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
