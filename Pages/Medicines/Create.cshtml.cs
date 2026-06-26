@@ -12,6 +12,9 @@ namespace pharmacy.Pages.Medicines
 {
     public class CreateModel : PageModel
     {
+        public string ImageUrl { get; set; } = "";
+        public IFormFile? ImageFile { get; set; }
+
         private readonly pharmacy.Data.ApplicationDbContext _context;
 
         public CreateModel(pharmacy.Data.ApplicationDbContext context)
@@ -21,7 +24,7 @@ namespace pharmacy.Pages.Medicines
 
         public IActionResult OnGet()
         {
-        ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
             return Page();
         }
 

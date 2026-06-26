@@ -11,7 +11,7 @@
     <hr />
     <div class="row">
     <div class="col-md-4">
-    <form method="post">
+    <form method="post" enctype = "multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <span class="text-danger">*</span>
@@ -30,10 +30,34 @@
                 <input asp-for="Medicine.RetailPrice" class="form-control" aria-required="true"/>
                 <span asp-validation-for="Medicine.RetailPrice" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Medicine.imageSrc" class="control-label"></label>
-                <input asp-for="Medicine.imageSrc" class="form-control" />
+      
+      <div class="mb-3">
+        <div class="form-label">
+          Image Source
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" class="form-check-input" name="imageMode" id="modeUrl" value="url">
+          <label class="form-check-label" for="modeUrl">Image URL</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" class="form-check-input" name="imageMode" id="modeFile" value="file" checked>
+          <label class="form-check-label" for="modeFile">Upload File</label>
+        </div>
+      </div>
+
+            <div id="urlForm" class="form-group" style = "display:none;">
+                <label asp-for="Medicine.imageSrc" class="control-label">Image source</label>
+                <div class="mb-3">
+                  <input asp-for="ImageUrl" placeholder="https://example.com/image.jpg" class="form-control">
+                </div>
                 <span asp-validation-for="Medicine.imageSrc" class="text-danger"></span>
+            </div>
+            <div id="fileForm" class="form-group">
+                <label class="control-label">File upload</label>
+                <div class="mb-3"">
+                  <input type="file" asp-for="ImageFile" class="form-control" accept = "image/*">
+                </div>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -45,6 +69,24 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
+<script>
+    const urlRadio = document.getElementById('modeUrl');
+    const fileRadio = document.getElementById('modeFile');
+    const urlField = document.getElementById('urlForm');
+    const fileField = document.getElementById('fileForm');
+    function toggleForms() {
+      if(urlRadio.checked) {
+        urlField.style.display = 'block';
+        fileField.style.display = 'none';
+      } else {
+        urlField.style.display = 'none';
+        fileField.style.display = 'block';
+      }
+    }
+    urlRadio.addEventListener('change', toggleForms); 
+    fileRadio.addEventListener('change', toggleForms);
+</script>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
