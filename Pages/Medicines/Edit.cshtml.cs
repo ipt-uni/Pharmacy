@@ -56,6 +56,7 @@ namespace pharmacy.Pages.Medicines
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
             if (!ModelState.IsValid)
             {
                 return Page();
