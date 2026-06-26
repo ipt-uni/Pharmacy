@@ -23,7 +23,10 @@ namespace pharmacy.Pages.Medicines
 
         public async Task OnGetAsync()
         {
-            Medicine = await _context.Medicines.Include(m => m.Company).ToListAsync();
+            Medicine = await _context
+                .Medicines.Include(m => m.Company)
+                .OrderBy(f => f.Id)
+                .ToListAsync();
         }
     }
 }
