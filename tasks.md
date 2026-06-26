@@ -2,7 +2,9 @@
 - [x] initialize asp.net core webapp project with identity
 - [x] use mariadb database with dbContext and setting up appsettings
 - [x] scaffold medicines crud pages
-- [ ] show medicine cards in Homepage
+- [x] show medicine cards in Homepage
+- [ ] update er-diagram and implement it
+- [ ] scaffold cart crud pages
 - [ ] implement the models and their data validation
   - [ ] data annotations such as [required], [minlength], [StringLength]
   - [ ] implement server side validation logic
