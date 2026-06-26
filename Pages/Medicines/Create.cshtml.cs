@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using pharmacy.Data;
 using pharmacy.Data.Models;
+using pharmacy.Services;
 
 namespace pharmacy.Pages.Medicines
 {
@@ -18,7 +19,8 @@ namespace pharmacy.Pages.Medicines
         [BindProperty]
         public IFormFile? ImageFile { get; set; }
 
-        private readonly pharmacy.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly MedicineImageService _medicineImageService;
 
         /// <summary>
         /// To access the web host environment for determining uploaded
@@ -28,11 +30,13 @@ namespace pharmacy.Pages.Medicines
 
         public CreateModel(
             pharmacy.Data.ApplicationDbContext context,
+            MedicineImageService medicineImageService,
             IWebHostEnvironment webHostEnvironment
         )
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _medicineImageService = medicineImageService;
         }
 
         public IActionResult OnGet()
@@ -49,75 +53,23 @@ namespace pharmacy.Pages.Medicines
         {
             if (!ModelState.IsValid)
             {
-                return Page();
-            }
-            /// 1. is to check whether there is a file upload or image url.
-            /// They can't be both
-            /// 2. if it is file:
-            ///    2.1 if the file is an image
-            ///        Then specify it's name
-            ///        assign the full image path to Medicine object
-            ///        save the file
-            ///     otherwise:
-            ///       throw an error indicating that the file is not an image
-            /// 3. if it is url:
-            ///    just set it and don't check much
-            /// 4. there can't be both image url and image file.
-            if (ImageFile != null && !string.IsNullOrEmpty(ImageUrl))
-            {
-                ModelState.AddModelError(
-                    "ImageFile",
-                    "You can't upload an image and an image url at the same time"
-                );
-                return Page();
-            }
-            if (ImageFile != null && ImageFile.Length > 0)
-            {
-                if (
-                    !(ImageFile.ContentType == "image/jpeg" || ImageFile.ContentType == "image/png")
-                )
+                foreach (var entry in ModelState)
                 {
-                    ModelState.AddModelError("ImageFile", "The file is not an image");
-                    return Page();
-                }
-                string imageName =
-                    Guid.NewGuid().ToString()
-                    + Path.GetExtension(ImageFile.FileName).ToLowerInvariant();
-                // save the image file to the server
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string imageDir = Path.Combine(wwwRootPath, "images");
-                string savePath = Path.Combine(imageDir, imageName);
-                Medicine.imageSrc = "/images/" + imageName;
-                try
-                {
-                    if (!Directory.Exists(imageDir))
+                    foreach (var error in entry.Value.Errors)
                     {
-                        Directory.CreateDirectory(imageDir);
-                    }
-                    // specify the path where to save the file
-                    using (var stream = new FileStream(savePath, FileMode.Create))
-                    {
-                        await ImageFile.CopyToAsync(stream);
+                        Console.WriteLine($"Key: {entry.Key}, Error: {error.ErrorMessage}");
                     }
                 }
-                catch (Exception)
-                {
-                    // throw;
-
-                    // in production, you should log the exception
-                    // and show a user-friendly message
-
-                    ModelState.AddModelError(
-                        string.Empty,
-                        "An error occurred while creating the medicine. Please try again."
-                    );
-                    return Page();
-                }
+                Console.WriteLine("Debug: ModelState is not valid");
+                return Page();
             }
-            if (!string.IsNullOrEmpty(ImageUrl))
+            var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
+            if (!result.Success)
             {
-                Medicine.imageSrc = ImageUrl;
+                ModelState.AddModelError(result.ErrorField, result.ErrorMessage);
+                return Page();
             }
+            Medicine.imageSrc = result.ImageSrc;
 
             try
             {
