@@ -1,14 +1,16 @@
 - [x] create the ER Diagram
 - [x] initialize asp.net core webapp project with identity
 - [x] use mariadb database with dbContext and setting up appsettings
+- [ ] scaffold medicines crud pages
+- [ ] show medicine cards in Homepage
 - [ ] implement the models and their data validation
   - [ ] data annotations such as [required], [minlength], [StringLength]
   - [ ] implement server side validation logic
 - [ ] create dbinitializer for easier testing
 - [ ] scaffold views for the required models
-- [ ] create the model DTOs
 - [ ] implement authentication and authorization
 - [ ] add mvc API controllers
+- [ ] create the model DTOs
 - [ ] add signal R
   - [ ] use signal R for customer support
 
