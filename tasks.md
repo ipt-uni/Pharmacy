@@ -15,6 +15,5 @@
 - [ ] add mvc API controllers
 - [ ] create the model DTOs
 - [ ] add signal R
-  - [ ] use signal R for customer support
 
 - [ ] Error handling & custom error pages
