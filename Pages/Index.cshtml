@@ -22,7 +22,7 @@
     @foreach (var item in Model.Medicines)
     {
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 shadow-hover">
                 @if (!string.IsNullOrEmpty(item.imageSrc))
                 {
                     <img src="@item.imageSrc"  alt="@item.Name" 
