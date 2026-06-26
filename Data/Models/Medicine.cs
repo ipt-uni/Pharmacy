@@ -25,6 +25,11 @@ public class Medicine
     public decimal RetailPrice { get; set; }
 
     /// <summary>
+    /// The image source of this medicine
+    /// </summary>
+    public string? imageSrc { get; set; }
+
+    /// <summary>
     /// The list of suppliers that sell this medicine
     /// </summary>
     public ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
