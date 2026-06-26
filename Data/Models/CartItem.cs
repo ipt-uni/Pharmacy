@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 namespace pharmacy.Data.Models;
 
 public class CartItem
@@ -22,4 +23,10 @@ public class CartItem
     [Required]
     public int Quantity { get; set; }
 
+    /// <summary>
+    /// The unit price at time of adding to cart (snapshot from Medicine.RetailPrice)
+    /// </summary>
+    [Required]
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal UnitPrice { get; set; }
 }

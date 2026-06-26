@@ -19,10 +19,9 @@ Users must be able to enter the website and look for their specific medicines. S
 erDiagram
 
 Company || -- o{ Medicine : "Manufactures"
-Cart || -- o{ CartItems : "Contains"
-Medicine || -- o{ CartItems : "Is in"
-Supplier || -- o{ SupplierMedicineJunction : "Supplies"
-Medicine || -- o{ SupplierMedicineJunction : "Is Supplied"
+Cart || -- o{ CartItem : "Contains"
+Medicine || -- o{ CartItem : "Is in"
+Supplier }o -- o{ Medicine : "Supplies"
 Payment o| -- || Cart : "Pays"
 
 Medicine{
@@ -30,33 +29,32 @@ Medicine{
     company_id int FK
     name varchar(50)
     retail_price decimal
+    image_src varchar "nullable"
+}
+Company{
+    id Integer PK
+    name varchar(50)
 }
 Supplier{
     id Integer PK
     name varchar(50)
-}
-SupplierMedicineJunction{
-    supplier_id Integer PK,FK
-    medicine_id Integer PK,FK
 }
 Cart{
     id Integer PK
     total_cost decimal
     total_quantity int
 }
-CartItems{
-    cart_id int PK,FK
-    medicine_id int PK,FK
+CartItem{
+    id Integer PK
+    cart_id int FK
+    medicine_id int FK
     quantity int
+    unit_price decimal
 }
 Payment{
     id Integer PK
     cart_id int FK
     amount decimal
-}
-Company{
-    id Integer PK
-    name varchar(50)
 }
 
 ```
