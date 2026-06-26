@@ -8,4 +8,7 @@ dotnet add package Microting.EntityFrameworkCore.MySql # For latest dotnet 10 an
 dotnet ef migrations add InitialMysqlCreate
 
 dotnet ef migrations add "Initial Implementation Of Models"
+
+dotnet aspnet-codegenerator identity -dc pharmacy.Data.ApplicationDbContext --files "Account.Register;Account.Login;Account.Logout;Account.RegisterConfirmation"
+
 ```
