@@ -33,7 +33,8 @@
             @Html.DisplayNameFor(model => model.Medicine.imageSrc)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Medicine.imageSrc)
+            @* @Html.DisplayFor(model => model.Medicine.imageSrc) *@
+            <img src="@Model.Medicine.imageSrc" alt="Medicine Image" style="width:100px;height:100px;" />
         </dd>
     </dl>
 </div>
