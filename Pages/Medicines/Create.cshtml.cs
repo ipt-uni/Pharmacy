@@ -12,7 +12,10 @@ namespace pharmacy.Pages.Medicines
 {
     public class CreateModel : PageModel
     {
-        public string ImageUrl { get; set; } = "";
+        [BindProperty]
+        public string? ImageUrl { get; set; } = "";
+
+        [BindProperty]
         public IFormFile? ImageFile { get; set; }
 
         private readonly pharmacy.Data.ApplicationDbContext _context;
