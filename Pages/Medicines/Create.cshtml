@@ -30,7 +30,9 @@
                 <input asp-for="Medicine.RetailPrice" class="form-control" aria-required="true"/>
                 <span asp-validation-for="Medicine.RetailPrice" class="text-danger"></span>
             </div>
-      
+     <!--
+        This are is for checking whether to use url mode or file upload mode.
+--> 
       <div class="mb-3">
         <div class="form-label">
           Image Source
@@ -44,7 +46,7 @@
           <label class="form-check-label" for="modeFile">Upload File</label>
         </div>
       </div>
-
+<!-- --------------------------------         Section finishes -->
             <div id="urlForm" class="form-group" style = "display:none;">
                 <label asp-for="Medicine.imageSrc" class="control-label">Image source</label>
                 <div class="mb-3">
