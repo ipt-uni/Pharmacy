@@ -56,5 +56,21 @@ Payment{
     cart_id int FK
     amount decimal
 }
+Customer{
+    id Integer PK
+    user_id string FK
+    first_name varchar(50)
+    last_name varchar(50)
+    age int
+    address varchar(200)
+    phone_number varchar(20) "nullable"
+}
+NonCustomer{
+    id Integer PK
+    user_id string FK
+    first_name varchar(50)
+    last_name varchar(50)
+    age int
+}
 
 ```
