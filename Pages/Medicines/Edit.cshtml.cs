@@ -33,6 +33,9 @@ namespace pharmacy.Pages.Medicines
         public IFormFile? ImageFile { get; set; }
 
         [BindProperty]
+        public bool RemoveImage { get; set; }
+
+        [BindProperty]
         public Medicine Medicine { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -61,15 +64,22 @@ namespace pharmacy.Pages.Medicines
             {
                 return Page();
             }
-            var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
-            if (!result.Success)
+            if (!RemoveImage)
             {
-                ModelState.AddModelError(result.ErrorField, result.ErrorMessage);
-                return Page();
+                var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
+                if (!result.Success)
+                {
+                    ModelState.AddModelError(result.ErrorField, result.ErrorMessage);
+                    return Page();
+                }
+                if (!string.IsNullOrEmpty(result.ImageSrc))
+                {
+                    Medicine.imageSrc = result.ImageSrc;
+                }
             }
-            if (!string.IsNullOrEmpty(result.ImageSrc))
+            else
             {
-                Medicine.imageSrc = result.ImageSrc;
+                Medicine.imageSrc = null;
             }
 
             _context.Attach(Medicine).State = EntityState.Modified;

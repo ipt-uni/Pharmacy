@@ -18,7 +18,7 @@
                 <span class="text-danger">*</span>
                 <label asp-for="Medicine.CompanyId" class="control-label"></label>
                 <select asp-for="Medicine.CompanyId" class="form-control" asp-items="ViewBag.CompanyId"
-                    aria-required="true"></select>
+                        aria-required="true"></select>
                 <span asp-validation-for="Medicine.CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,37 +33,48 @@
                 <input asp-for="Medicine.RetailPrice" class="form-control" aria-required="true" />
                 <span asp-validation-for="Medicine.RetailPrice" class="text-danger"></span>
             </div>
-            <!--
+            <div class="form-check m-3">
+                <input type="checkbox" class="form-check-input" asp-for="RemoveImage" />
+                <label class="form-check-label" asp-for="RemoveImage">Remove this image</label>
+            </div>
+            <div class="form-group" id = "imageUploadMode">
+                <!--
         This are is for checking whether to use url mode or file upload mode.
 -->
-            <div class="mb-3">
-                <div class="form-label">
-                    Image Source
-                </div>
-                <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="imageMode" id="modeUrl" value="url">
-                    <label class="form-check-label" for="modeUrl">Image URL</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="imageMode" id="modeFile" value="file" checked>
-                    <label class="form-check-label" for="modeFile">Upload File</label>
-                </div>
-            </div>
-            <!-- --------------------------------         Section finishes -->
-            <input type="hidden" asp-for="Medicine.imageSrc" />
-            <div id="urlForm" class="form-group" style="display:none;">
-                <label asp-for="Medicine.imageSrc" class="control-label">Image source</label>
                 <div class="mb-3">
-                    <input asp-for="ImageUrl" placeholder="https://example.com/image.jpg" class="form-control">
+                    <div class="form-label">
+                        Image Source
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="imageMode" id="modeUrl" value="url">
+                        <label class="form-check-label" for="modeUrl">Image URL</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="imageMode" id="modeFile" value="file"
+                               checked>
+                        <label class="form-check-label" for="modeFile">Upload File</label>
+                    </div>
                 </div>
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div id="fileForm" class="form-group">
-                <label class="control-label">File upload</label>
-                <div class="mb-3"">
-                  <input type="file" asp-for="ImageFile" class="form-control" accept="image/*">
+                <!-- --------------------------------         Section finishes -->
+                <input type="hidden" asp-for="Medicine.imageSrc" />
+                <div id="urlForm" class="form-group" style="display:none;">
+                    <label asp-for="Medicine.imageSrc" class="control-label">Image source</label>
+                    <div class="mb-3">
+                        <input asp-for="ImageUrl" placeholder="https://example.com/image.jpg" class="form-control">
+                    </div>
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <div id="fileForm" class="form-group">
+                    <label class="control-label">File upload</label>
+                    <div class="mb-3"">
+                        <input type="file" asp-for="ImageFile" class="form-control" accept="image/*">
+                    </div>
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <label class="control-label">Current Image</label>
+                <div>
+                    <img src="@Model.Medicine.imageSrc" alt="Current" style="max-width: 200px; max-height: 200px;" />
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -76,6 +87,23 @@
     <a asp-page="./Index">Back to List</a>
 </div>
 <script src="~/js/Medicine.js"></script>
+<script>
+    /*
+    get the remove image checkbox
+    if it is true hide image and the file uploading etc all of them
+    otherwise show it
+    * */
+    const removeImageCheckbox = document.getElementById('RemoveImage');
+    const imageUploadMode = document.getElementById('imageUploadMode');
+
+    removeImageCheckbox.addEventListener('change', function () {
+        if (removeImageCheckbox.checked) {
+            imageUploadMode.style.display = 'none';
+        } else {
+            imageUploadMode.style.display = 'block';
+        }
+    });
+</script>
 
 @section Scripts {
     @{
