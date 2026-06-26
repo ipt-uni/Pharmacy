@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using pharmacy.Data;
+using pharmacy.Data.Seed;
 using pharmacy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.SeedDatabase();
 
 app.MapStaticAssets();
 app.MapRazorPages().WithStaticAssets();
