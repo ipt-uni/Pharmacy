@@ -19,13 +19,14 @@ namespace pharmacy.Pages.CartItems
             _context = context;
         }
 
-        public IList<CartItem> CartItem { get;set; } = default!;
+        public IList<CartItem> CartItem { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            CartItem = await _context.CartItems
-                .Include(c => c.Cart)
-                .Include(c => c.Medicine).ToListAsync();
+            CartItem = await _context
+                .CartItems.Include(c => c.Cart)
+                .Include(c => c.Medicine)
+                .ToListAsync();
         }
     }
 }
