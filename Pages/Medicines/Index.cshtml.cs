@@ -19,12 +19,11 @@ namespace pharmacy.Pages.Medicines
             _context = context;
         }
 
-        public IList<Medicine> Medicine { get;set; } = default!;
+        public IList<Medicine> Medicine { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Medicine = await _context.Medicines
-                .Include(m => m.Company).ToListAsync();
+            Medicine = await _context.Medicines.Include(m => m.Company).ToListAsync();
         }
     }
 }
