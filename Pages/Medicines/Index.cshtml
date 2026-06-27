@@ -32,6 +32,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Medicine[0].imageSrc)
             </th>
+            <th>Suppliers</th>
             <th></th>
         </tr>
     </thead>
@@ -55,6 +56,7 @@
                     @* @Html.DisplayFor(modelItem => item.imageSrc) *@
                     <img src="@item.imageSrc" alt="image" width="100" height="100" />
                 </td>
+                <td>@string.Join(", ", item.Suppliers.Select(s => s.Name))</td>
                 <td>
                     @if (User.IsInRole("Staff"))
                     {

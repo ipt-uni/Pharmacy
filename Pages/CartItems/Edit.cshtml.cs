@@ -8,7 +8,7 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.CartItems;
 
-[Authorize]
+[Authorize(Roles = "Customer")]
 public class EditModel : PageModel
 {
     private readonly ApplicationDbContext _context;

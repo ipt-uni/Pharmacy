@@ -43,7 +43,7 @@
                     </p>
                     <h3 class="text-primary fw-bold mb-3">@item.RetailPrice.ToString("C")</h3>
                     <p class="card-text small text-muted mb-0">
-                        @item.Suppliers.Count supplier@(item.Suppliers.Count != 1 ? "s" : "")
+                        @string.Join(", ", item.Suppliers.Select(s => s.Name))
                     </p>
                 </div>
                 <div class="card-footer bg-white border-0 pt-0 d-grid gap-1">

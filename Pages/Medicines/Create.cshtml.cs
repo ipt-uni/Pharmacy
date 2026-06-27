@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using pharmacy.Data;
 using pharmacy.Data.Models;
 using pharmacy.Services;
@@ -44,11 +45,15 @@ namespace pharmacy.Pages.Medicines
         public IActionResult OnGet()
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
+            ViewData["Suppliers"] = new MultiSelectList(_context.Suppliers, "Id", "Name");
             return Page();
         }
 
         [BindProperty]
         public Medicine Medicine { get; set; } = default!;
+
+        [BindProperty]
+        public List<int> SelectedSupplierIds { get; set; } = new();
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -72,6 +77,15 @@ namespace pharmacy.Pages.Medicines
                 return Page();
             }
             Medicine.imageSrc = result.ImageSrc;
+
+            if (SelectedSupplierIds.Any())
+            {
+                var suppliers = await _context
+                    .Suppliers.Where(s => SelectedSupplierIds.Contains(s.Id))
+                    .ToListAsync<Supplier>();
+                foreach (var supplier in suppliers)
+                    Medicine.Suppliers.Add(supplier);
+            }
 
             try
             {

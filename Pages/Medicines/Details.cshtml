@@ -36,6 +36,12 @@
             @* @Html.DisplayFor(model => model.Medicine.imageSrc) *@
             <img src="@Model.Medicine.imageSrc" alt="Medicine Image" style="width:100px;height:100px;" />
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Medicine.Suppliers)
+        </dt>
+        <dd class="col-sm-10">
+            @string.Join(", ", Model.Medicine.Suppliers.Select(s => s.Name))
+        </dd>
     </dl>
 </div>
 <div>

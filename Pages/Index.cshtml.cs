@@ -20,6 +20,9 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        Medicines = _context.Medicines.Include(m => m.Company).ToList();
+        Medicines = _context
+            .Medicines.Include(m => m.Company)
+            .Include(m => m.Suppliers)
+            .ToList();
     }
 }

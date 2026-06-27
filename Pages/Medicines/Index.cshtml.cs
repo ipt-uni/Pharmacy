@@ -25,6 +25,7 @@ namespace pharmacy.Pages.Medicines
         {
             Medicine = await _context
                 .Medicines.Include(m => m.Company)
+                .Include(m => m.Suppliers)
                 .OrderBy(f => f.Id)
                 .ToListAsync();
         }

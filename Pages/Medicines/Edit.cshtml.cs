@@ -40,6 +40,9 @@ namespace pharmacy.Pages.Medicines
         [BindProperty]
         public Medicine Medicine { get; set; } = default!;
 
+        [BindProperty]
+        public List<int> SelectedSupplierIds { get; set; } = new();
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -47,13 +50,19 @@ namespace pharmacy.Pages.Medicines
                 return NotFound();
             }
 
-            var medicine = await _context.Medicines.FirstOrDefaultAsync(m => m.Id == id);
+            var medicine = await _context
+                .Medicines.Include(m => m.Suppliers)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (medicine == null)
             {
                 return NotFound();
             }
             Medicine = medicine;
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
+            ViewData["Suppliers"] = new MultiSelectList(
+                _context.Suppliers, "Id", "Name",
+                medicine.Suppliers.Select(s => s.Id)
+            );
             return Page();
         }
 
@@ -62,10 +71,27 @@ namespace pharmacy.Pages.Medicines
         public async Task<IActionResult> OnPostAsync()
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
+            ViewData["Suppliers"] = new MultiSelectList(
+                _context.Suppliers, "Id", "Name",
+                SelectedSupplierIds
+            );
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
+            var medicineToUpdate = await _context
+                .Medicines.Include(m => m.Suppliers)
+                .FirstOrDefaultAsync(m => m.Id == Medicine.Id);
+            if (medicineToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            medicineToUpdate.Name = Medicine.Name;
+            medicineToUpdate.CompanyId = Medicine.CompanyId;
+            medicineToUpdate.RetailPrice = Medicine.RetailPrice;
+
             if (!RemoveImage)
             {
                 var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
@@ -76,15 +102,20 @@ namespace pharmacy.Pages.Medicines
                 }
                 if (!string.IsNullOrEmpty(result.ImageSrc))
                 {
-                    Medicine.imageSrc = result.ImageSrc;
+                    medicineToUpdate.imageSrc = result.ImageSrc;
                 }
             }
             else
             {
-                Medicine.imageSrc = null;
+                medicineToUpdate.imageSrc = null;
             }
 
-            _context.Attach(Medicine).State = EntityState.Modified;
+            var selectedSuppliers = await _context.Suppliers
+                .Where(s => SelectedSupplierIds.Contains(s.Id))
+                .ToListAsync();
+            medicineToUpdate.Suppliers.Clear();
+            foreach (var s in selectedSuppliers)
+                medicineToUpdate.Suppliers.Add(s);
 
             try
             {
@@ -92,7 +123,7 @@ namespace pharmacy.Pages.Medicines
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MedicineExists(Medicine.Id))
+                if (!_context.Medicines.Any(e => e.Id == Medicine.Id))
                 {
                     return NotFound();
                 }
@@ -103,11 +134,6 @@ namespace pharmacy.Pages.Medicines
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool MedicineExists(int id)
-        {
-            return _context.Medicines.Any(e => e.Id == id);
         }
     }
 }
