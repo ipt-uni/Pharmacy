@@ -260,5 +260,6 @@ public class RegisterInput
 
     [Phone]
     [StringLength(20)]
+    [RegularExpression(@"^\+?\d{7,15}$", ErrorMessage = "Phone number must be 7-15 digits, optionally starting with +.")]
     public string? PhoneNumber { get; set; }
 }
