@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Payments
 {
+    /// <summary>
+    /// Displays details of a single payment.
+    /// </summary>
     public class DetailsModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -21,6 +24,9 @@ namespace pharmacy.Pages.Payments
 
         public Payment Payment { get; set; } = default!;
 
+        /// <summary>
+        /// Loads the payment by id. Returns 404 if not found.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)

@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Suppliers
 {
+    /// <summary>
+    /// Lists all suppliers.
+    /// </summary>
     public class IndexModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -21,6 +24,9 @@ namespace pharmacy.Pages.Suppliers
 
         public IList<Supplier> Supplier { get;set; } = default!;
 
+        /// <summary>
+        /// Loads all suppliers ordered by id.
+        /// </summary>
         public async Task OnGetAsync()
         {
             Supplier = await _context.Suppliers.ToListAsync();

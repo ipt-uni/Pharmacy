@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Medicines
 {
+    /// <summary>
+    /// Medicine list page (staff-only Create/Edit/Delete, public Details).
+    /// </summary>
     public class IndexModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -21,6 +24,9 @@ namespace pharmacy.Pages.Medicines
 
         public IList<Medicine> Medicine { get; set; } = default!;
 
+        /// <summary>
+        /// Loads all medicines ordered by id, including company and supplier data.
+        /// </summary>
         public async Task OnGetAsync()
         {
             Medicine = await _context

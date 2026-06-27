@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace pharmacy.Pages;
 
+/// <summary>
+/// Staff-only real-time chat page powered by SignalR.
+/// </summary>
 [Authorize(Roles = "Staff")]
 public class ChathubModel : PageModel
 {

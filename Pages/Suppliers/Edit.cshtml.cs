@@ -11,6 +11,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Suppliers
 {
+    /// <summary>
+    /// Edit an existing supplier.
+    /// </summary>
     public class EditModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -23,6 +26,9 @@ namespace pharmacy.Pages.Suppliers
         [BindProperty]
         public Supplier Supplier { get; set; } = default!;
 
+        /// <summary>
+        /// Loads the supplier by id for editing. Returns 404 if not found.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -69,6 +75,9 @@ namespace pharmacy.Pages.Suppliers
             return RedirectToPage("./Index");
         }
 
+        /// <summary>
+        /// Returns true if a supplier with the given id exists.
+        /// </summary>
         private bool SupplierExists(int id)
         {
             return _context.Suppliers.Any(e => e.Id == id);

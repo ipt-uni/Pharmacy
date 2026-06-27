@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Companies
 {
+    /// <summary>
+    /// Delete confirmation and execution page for companies.
+    /// </summary>
     public class DeleteModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -22,6 +25,9 @@ namespace pharmacy.Pages.Companies
         [BindProperty]
         public Company Company { get; set; } = default!;
 
+        /// <summary>
+        /// Shows the company details for deletion confirmation.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -41,6 +47,9 @@ namespace pharmacy.Pages.Companies
             return NotFound();
         }
 
+        /// <summary>
+        /// Deletes the company. Returns 404 if already removed.
+        /// </summary>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)

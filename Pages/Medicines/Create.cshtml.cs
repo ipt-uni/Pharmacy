@@ -13,6 +13,10 @@ using pharmacy.Services;
 
 namespace pharmacy.Pages.Medicines
 {
+    /// <summary>
+    /// Create a new medicine (Staff only).
+    /// Supports image upload from file or URL and multi-select suppliers.
+    /// </summary>
     [Authorize(Roles = "Staff")]
     public class CreateModel : PageModel
     {
@@ -42,6 +46,9 @@ namespace pharmacy.Pages.Medicines
             _medicineImageService = medicineImageService;
         }
 
+        /// <summary>
+        /// Populates dropdowns for company and supplier selection.
+        /// </summary>
         public IActionResult OnGet()
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
@@ -60,6 +67,7 @@ namespace pharmacy.Pages.Medicines
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
             ViewData["Suppliers"] = new SelectList(_context.Suppliers, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 foreach (var entry in ModelState)
@@ -72,6 +80,8 @@ namespace pharmacy.Pages.Medicines
                 Console.WriteLine("Debug: ModelState is not valid");
                 return Page();
             }
+
+            // 1. Process the image source (file upload or URL)
             var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
             if (!result.Success)
             {
@@ -80,6 +90,7 @@ namespace pharmacy.Pages.Medicines
             }
             Medicine.imageSrc = result.ImageSrc;
 
+            // 2. Attach selected suppliers to the new medicine
             if (SelectedSupplierIds.Any())
             {
                 var suppliers = await _context

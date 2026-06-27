@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Companies
 {
+    /// <summary>
+    /// Lists all pharmaceutical companies.
+    /// </summary>
     public class IndexModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -21,6 +24,9 @@ namespace pharmacy.Pages.Companies
 
         public IList<Company> Company { get;set; } = default!;
 
+        /// <summary>
+        /// Loads all companies ordered by id.
+        /// </summary>
         public async Task OnGetAsync()
         {
             Company = await _context.Companies.ToListAsync();

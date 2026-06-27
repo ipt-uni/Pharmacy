@@ -8,6 +8,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.CartItems;
 
+/// <summary>
+/// Page for editing the quantity of a single cart item.
+/// </summary>
 [Authorize(Roles = "Customer")]
 public class EditModel : PageModel
 {
@@ -23,6 +26,9 @@ public class EditModel : PageModel
     [BindProperty]
     public CartItem CartItem { get; set; } = default!;
 
+    /// <summary>
+    /// Loads the cart item for editing, verifying it belongs to the current customer.
+    /// </summary>
     public async Task<IActionResult> OnGetAsync(int id)
     {
         var userId = _userManager.GetUserId(User);
@@ -40,6 +46,9 @@ public class EditModel : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Saves the updated quantity. Validates that quantity is at least 1.
+    /// </summary>
     public async Task<IActionResult> OnPostAsync(int id)
     {
         var userId = _userManager.GetUserId(User);

@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Suppliers
 {
+    /// <summary>
+    /// Delete confirmation and execution page for suppliers.
+    /// </summary>
     public class DeleteModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -22,6 +25,9 @@ namespace pharmacy.Pages.Suppliers
         [BindProperty]
         public Supplier Supplier { get; set; } = default!;
 
+        /// <summary>
+        /// Shows the supplier details for deletion confirmation.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -41,6 +47,9 @@ namespace pharmacy.Pages.Suppliers
             return NotFound();
         }
 
+        /// <summary>
+        /// Deletes the supplier. Returns 404 if already removed.
+        /// </summary>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)

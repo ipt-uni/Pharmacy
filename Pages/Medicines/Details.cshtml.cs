@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Medicines
 {
+    /// <summary>
+    /// Displays full details of a single medicine, including company and suppliers.
+    /// </summary>
     public class DetailsModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -21,6 +24,9 @@ namespace pharmacy.Pages.Medicines
 
         public Medicine Medicine { get; set; } = default!;
 
+        /// <summary>
+        /// Loads the medicine by id with its company and suppliers. Returns 404 if not found.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)

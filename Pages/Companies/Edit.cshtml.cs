@@ -11,6 +11,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Companies
 {
+    /// <summary>
+    /// Edit an existing company.
+    /// </summary>
     public class EditModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -23,6 +26,9 @@ namespace pharmacy.Pages.Companies
         [BindProperty]
         public Company Company { get; set; } = default!;
 
+        /// <summary>
+        /// Loads the company by id for editing. Returns 404 if not found.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -69,6 +75,9 @@ namespace pharmacy.Pages.Companies
             return RedirectToPage("./Index");
         }
 
+        /// <summary>
+        /// Returns true if a company with the given id exists.
+        /// </summary>
         private bool CompanyExists(int id)
         {
             return _context.Companies.Any(e => e.Id == id);

@@ -10,6 +10,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Suppliers
 {
+    /// <summary>
+    /// Create a new supplier.
+    /// </summary>
     public class CreateModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
@@ -19,6 +22,9 @@ namespace pharmacy.Pages.Suppliers
             _context = context;
         }
 
+        /// <summary>
+        /// Displays the create form.
+        /// </summary>
         public IActionResult OnGet()
         {
             return Page();

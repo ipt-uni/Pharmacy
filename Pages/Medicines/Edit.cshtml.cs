@@ -13,6 +13,10 @@ using pharmacy.Services;
 
 namespace pharmacy.Pages.Medicines
 {
+    /// <summary>
+    /// Edit an existing medicine (Staff only).
+    /// Supports image replacement, removal, and supplier reassignment.
+    /// </summary>
     [Authorize(Roles = "Staff")]
     public class EditModel : PageModel
     {
@@ -43,6 +47,9 @@ namespace pharmacy.Pages.Medicines
         [BindProperty]
         public List<int> SelectedSupplierIds { get; set; } = new();
 
+        /// <summary>
+        /// Loads the existing medicine data along with its current suppliers.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -75,6 +82,7 @@ namespace pharmacy.Pages.Medicines
                 return Page();
             }
 
+            // 1. Fetch the existing medicine with its current suppliers
             var medicineToUpdate = await _context
                 .Medicines.Include(m => m.Suppliers)
                 .FirstOrDefaultAsync(m => m.Id == Medicine.Id);
@@ -83,10 +91,12 @@ namespace pharmacy.Pages.Medicines
                 return NotFound();
             }
 
+            // 2. Update scalar fields
             medicineToUpdate.Name = Medicine.Name;
             medicineToUpdate.CompanyId = Medicine.CompanyId;
             medicineToUpdate.RetailPrice = Medicine.RetailPrice;
 
+            // 3. Handle image: replace/remove/keep existing
             if (!RemoveImage)
             {
                 var result = await _medicineImageService.ProcessImageAsync(ImageFile, ImageUrl);
@@ -105,6 +115,7 @@ namespace pharmacy.Pages.Medicines
                 medicineToUpdate.imageSrc = null;
             }
 
+            // 4. Replace the supplier list with the newly selected set
             var selectedSuppliers = await _context.Suppliers
                 .Where(s => SelectedSupplierIds.Contains(s.Id))
                 .ToListAsync();

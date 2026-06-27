@@ -6,6 +6,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages;
 
+/// <summary>
+/// Home page — displays all medicines as a card grid with Add to Cart and Details actions.
+/// </summary>
 public class IndexModel : PageModel
 {
     ApplicationDbContext _context;
@@ -18,6 +21,9 @@ public class IndexModel : PageModel
 
     public ICollection<Medicine> Medicines = new List<Medicine>();
 
+    /// <summary>
+    /// Loads all medicines with their company and supplier data for display.
+    /// </summary>
     public void OnGet()
     {
         Medicines = _context

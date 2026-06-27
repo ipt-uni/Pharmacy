@@ -11,6 +11,9 @@ using pharmacy.Data.Models;
 
 namespace pharmacy.Pages.Medicines
 {
+    /// <summary>
+    /// Delete confirmation and execution page for medicines (Staff only).
+    /// </summary>
     [Authorize(Roles = "Staff")]
     public class DeleteModel : PageModel
     {
@@ -24,6 +27,9 @@ namespace pharmacy.Pages.Medicines
         [BindProperty]
         public Medicine Medicine { get; set; } = default!;
 
+        /// <summary>
+        /// Shows the medicine details for deletion confirmation.
+        /// </summary>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -43,6 +49,9 @@ namespace pharmacy.Pages.Medicines
             return NotFound();
         }
 
+        /// <summary>
+        /// Deletes the medicine. Returns 404 if already removed.
+        /// </summary>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
