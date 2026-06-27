@@ -1,0 +1,128 @@
+               Evaluation Rules
+               Web Development                                                                             – 1–
+               Bachelor's degree in Computer Engineering
+               2nd year, 2nd semester
+
+
+
+
+Preamble
+Web Development course unit will be carried out through the submission of a project, in which each
+of its components must be addressed.
+    1. Component 1 - User interface in a ' server- side ' environment
+    2. Component 2 - API specification and programming
+    3. Component 3 - publishing the web application
+Each component will be evaluated up to 20v. The final rating will be the weighted average of the ratings
+for Components 1, 2, and 3.
+    • Component 1: 60% of the final grade
+    • Component 2: 30% of the final grade
+    • Component 3: 10% of the final grade
+To pass the course, each student must obtain a grade of 7.0 (seven point zero) or higher in components
+1 and 2.
+
+
+Theme
+    • The topic of the assignment is free, but it must be approved by the faculty.
+
+
+Execution of the work
+    • The work will be carried out in groups of 2 (two) students, except for Erasmus students.
+    • The interface will be presented exclusively in Portuguese (content in other languages may be
+      added if desired). Erasmus students must use English.
+    • To develop their work, students should use the following technologies and concepts:
+           ▪    ASP.NET ASP.NET Core MVC (for API);
+           ▪    ASP.NET ASP.NET Core Razor Pages (for Web Application);
+           ▪    EntityFramework ;
+           ▪    LINQ;
+           ▪    Signal R;
+           ▪    Graphical interface layouts.
+
+    • Optionally, students may use the following libraries and/or frameworks to assist in the
+      development of their work, in any of the components:
+        ▪ jQuery ;
+        ▪ Bootstrap or similar (Semantic , Fluent , Materialize ...);
+        ▪ Others, publicly available, through, for example:
+          ▪ NuGet ;
+          ▪ Directly from the websites of these projects.
+            Evaluation Rules
+            Web Development                                                                              – 2–
+            Bachelor's degree in Computer Engineering
+            2nd year, 2nd semester
+
+    • third-party code is encouraged, provided that:
+       ▪ Justification must be provided for their use;
+       ▪ Students demonstrate that they know how to perform the task without using them, or what
+         the tool does;
+       ▪ The origin of this code should be referenced, both within the code itself and in a section of
+         the application accessible from its boot page.
+         Note: Failure to cite these references will be considered plagiarism , with the resulting
+                  consequences .
+    • Students should develop their work using Microsoft Visual Studio 2022/2026. Code or
+      JetBrains Rider , but you can choose other tools that you deem necessary to complement your
+      work.
+    • Depending on the size of the application, it is acceptable that some application components
+      are not implemented. Such components should be clearly identified in the application to allow
+      students to focus on the core components of their work.
+      Note : The prioritization of components to be developed should be based on common sense.
+    • It is mandatory that the code is properly formatted and commented.
+    • Each resulting application should have a section/page, accessible from the initial view, that
+      displays the following details :
+       ▪ Indication of the course name, subject, and academic year;
+       ▪ Number and name of the authors of the work;
+       ▪ Identification of third-party libraries, frameworks , and code used in the work, including
+         where they were obtained. Optionally, this information may appear as a comment
+         alongside the code where it is used;
+       ▪ When relevant, identification of the access credentials of users initially created in the
+         application, namely login and password .
+   •   Any attempt at fraud will result in automatic failure in the subject .
+
+
+
+
+Work
+The submitted work must accomplish at least the following tasks:
+    • Accessing a database. This database must have at least three tables, and one " many-to-one "
+      relationship and one " many-to-many " relationship . The web application must interact with
+      these tables.
+    • The interaction should perform the 4 CRUD operations (insert , edit , delete , and view) on the
+      tables, interacting with the required relationships.
+    • The configuration for accessing the database (or any other external service) must be done
+      using configuration files (e.g. , Web.config , appsettings.json).
+          Evaluation Rules
+          Web Development                                                                              – 3–
+          Bachelor's degree in Computer Engineering
+          2nd year, 2nd semester
+
+  • MySQL as your database engine , you must provide the scripts for creating the database(s),
+    creating the tables and records, as well as creating the users for administration/use of the
+    database(s);
+  • Properly validate the data entered by users, both during the insertion and editing operations;
+  • Validate the operations for removing/deleting information;
+  • User access control to available resources. At a minimum, there should be two different types
+    of users, with differentiated access to information;
+  • Validate code execution by inserting appropriate error messages (whenever necessary);
+  • Use "error" pages to prevent browser error messages caused by missing pages, database
+    access errors, etc.;
+  • Respect usability rules when building/using the interface;
+
+
+
+
+Delivery
+  • The work must, without exception, be:
+     ▪ submitted in the e-learning platform;
+     ▪ The code is hosted on GitHub (the quality of the commits will be subject to evaluation...).
+  • Publishing on a web server.
+
+
+
+
+Defense
+ •   The defense will last approximately 40 minutes.
+ •   During the defense, students will be asked questions about the work they have developed,
+     and they will be able to develop code in order to implement or modify some functionality of
+     the submitted project.
+ •   For the defense, if in a remote environment , the application to be executed will be the one
+     present on the web server . Only in its absence will the application to be run on the students'
+     computers be used.
+
