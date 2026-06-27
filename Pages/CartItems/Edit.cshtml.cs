@@ -1,79 +1,71 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using pharmacy.Data;
 using pharmacy.Data.Models;
 
-namespace pharmacy.Pages.CartItems
+namespace pharmacy.Pages.CartItems;
+
+[Authorize]
+public class EditModel : PageModel
 {
-    public class EditModel : PageModel
+    private readonly ApplicationDbContext _context;
+    private readonly UserManager<IdentityUser> _userManager;
+
+    public EditModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
-        private readonly pharmacy.Data.ApplicationDbContext _context;
+        _context = context;
+        _userManager = userManager;
+    }
 
-        public EditModel(pharmacy.Data.ApplicationDbContext context)
+    [BindProperty]
+    public CartItem CartItem { get; set; } = default!;
+
+    public async Task<IActionResult> OnGetAsync(int id)
+    {
+        var userId = _userManager.GetUserId(User);
+        if (userId == null)
+            return RedirectToPage("/Identity/Account/Login");
+
+        CartItem = await _context
+            .CartItems.Include(ci => ci.Medicine)
+            .Include(ci => ci.Cart)
+            .FirstOrDefaultAsync(ci => ci.Id == id && ci.Cart!.Customer.UserId == userId);
+
+        if (CartItem == null)
+            return NotFound();
+
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int id)
+    {
+        var userId = _userManager.GetUserId(User);
+        if (userId == null)
+            return RedirectToPage("/Identity/Account/Login");
+
+        var cartItem = await _context
+            .CartItems.Include(ci => ci.Cart)
+            .FirstOrDefaultAsync(ci => ci.Id == id && ci.Cart!.Customer.UserId == userId);
+
+        if (cartItem == null)
+            return NotFound();
+
+        if (CartItem.Quantity < 1)
         {
-            _context = context;
-        }
-
-        [BindProperty]
-        public CartItem CartItem { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cartitem =  await _context.CartItems.FirstOrDefaultAsync(m => m.Id == id);
-            if (cartitem == null)
-            {
-                return NotFound();
-            }
-            CartItem = cartitem;
-           ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id");
-           ViewData["MedicineId"] = new SelectList(_context.Medicines, "Id", "Name");
+            ModelState.AddModelError("CartItem.Quantity", "Quantity must be at least 1.");
+            CartItem = await _context
+                .CartItems.Include(ci => ci.Medicine)
+                .Include(ci => ci.Cart)
+                .FirstAsync(ci => ci.Id == id);
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+        cartItem.Quantity = CartItem.Quantity;
+        await _context.SaveChangesAsync();
 
-            _context.Attach(CartItem).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CartItemExists(CartItem.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool CartItemExists(int id)
-        {
-            return _context.CartItems.Any(e => e.Id == id);
-        }
+        return RedirectToPage("./Index");
     }
 }

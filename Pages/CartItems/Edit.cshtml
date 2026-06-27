@@ -1,54 +1,29 @@
 @page
 @model pharmacy.Pages.CartItems.EditModel
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Cart Item";
 }
 
-<h1>Edit</h1>
+<h1>Edit Cart Item</h1>
 
-<h4>CartItem</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CartItem.Id" />
-            <div class="form-group">
-<span class="text-danger">*</span>
-                <label asp-for="CartItem.CartId" class="control-label"></label>
-                <select asp-for="CartItem.CartId" class="form-control" asp-items="ViewBag.CartId" aria-required="true"></select>
-                <span asp-validation-for="CartItem.CartId" class="text-danger"></span>
+            <div class="mb-3">
+                <label class="form-label">Medicine</label>
+                <p class="form-control-plaintext">@Model.CartItem.Medicine.Name</p>
             </div>
-            <div class="form-group">
-<span class="text-danger">*</span>
-                <label asp-for="CartItem.MedicineId" class="control-label"></label>
-                <select asp-for="CartItem.MedicineId" class="form-control" asp-items="ViewBag.MedicineId" aria-required="true"></select>
-                <span asp-validation-for="CartItem.MedicineId" class="text-danger"></span>
+            <div class="mb-3">
+                <label class="form-label">Unit Price</label>
+                <p class="form-control-plaintext">@Model.CartItem.UnitPrice.ToString("C")</p>
             </div>
-            <div class="form-group">
-<span class="text-danger">*</span>
-                <label asp-for="CartItem.Quantity" class="control-label"></label>
-                <input asp-for="CartItem.Quantity" class="form-control" aria-required="true"/>
+            <div class="mb-3">
+                <label asp-for="CartItem.Quantity" class="form-label"></label>
+                <input asp-for="CartItem.Quantity" class="form-control" min="1" />
                 <span asp-validation-for="CartItem.Quantity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-<span class="text-danger">*</span>
-                <label asp-for="CartItem.UnitPrice" class="control-label"></label>
-                <input asp-for="CartItem.UnitPrice" class="form-control" aria-required="true"/>
-                <span asp-validation-for="CartItem.UnitPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
