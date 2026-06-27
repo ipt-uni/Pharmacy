@@ -15,6 +15,6 @@
 - [x] add mvc API controllers
 - [x] create the model DTOs
 
-- [ ] add signal R
-  - [ ] a naive approach to staff chat
+- [x] add signal R
+  - [x] a naive approach to staff chat
 - [ ] Error handling & custom error pages
