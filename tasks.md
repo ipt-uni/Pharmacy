@@ -4,14 +4,14 @@
 - [x] scaffold medicines crud pages
 - [x] show medicine cards in Homepage
 - [x] update er-diagram and implement it
-- [ ] work on authentication
-- [ ] scaffold cart crud pages
-- [ ] implement the models and their data validation
-  - [ ] data annotations such as [required], [minlength], [StringLength]
-  - [ ] implement server side validation logic
-- [ ] create dbinitializer for easier testing
-- [ ] scaffold views for the required models
-- [ ] implement authentication and authorization
+- [x] work on authentication
+- [x] scaffold cart crud pages
+- [x] implement the models and their data validation
+  - [x] data annotations such as [required], [minlength], [StringLength]
+  - [x] implement server side validation logic
+- [x] create dbinitializer for easier testing
+- [x] scaffold views for the required models
+- [x] implement authentication and authorization
 - [ ] add mvc API controllers
 - [ ] create the model DTOs
 - [ ] add signal R
