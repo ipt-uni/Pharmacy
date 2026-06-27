@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pharmacy.Data;
 using pharmacy.Data.Models;
+using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
@@ -23,21 +24,44 @@ namespace pharmacy.Controllers
 
         // GET: api/Medicine
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Medicine>>> GetMedicine()
+        public async Task<ActionResult<IEnumerable<MedicineDto>>> GetMedicine()
         {
-            return await _context.Medicines.ToListAsync();
+            return await _context.Medicines
+                .Include(m => m.Company)
+                .Include(m => m.Suppliers)
+                .Select(m => new MedicineDto
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    RetailPrice = m.RetailPrice,
+                    ImageSrc = m.imageSrc,
+                    CompanyName = m.Company.Name,
+                    Suppliers = m.Suppliers.Select(s => s.Name).ToList()
+                })
+                .ToListAsync();
         }
 
         // GET: api/Medicine/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Medicine>> GetMedicine(int id)
+        public async Task<ActionResult<MedicineDto>> GetMedicine(int id)
         {
-            var medicine = await _context.Medicines.FindAsync(id);
+            var medicine = await _context.Medicines
+                .Include(m => m.Company)
+                .Include(m => m.Suppliers)
+                .Where(m => m.Id == id)
+                .Select(m => new MedicineDto
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    RetailPrice = m.RetailPrice,
+                    ImageSrc = m.imageSrc,
+                    CompanyName = m.Company.Name,
+                    Suppliers = m.Suppliers.Select(s => s.Name).ToList()
+                })
+                .FirstOrDefaultAsync();
 
             if (medicine == null)
-            {
                 return NotFound();
-            }
 
             return medicine;
         }
