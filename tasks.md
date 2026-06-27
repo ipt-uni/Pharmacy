@@ -16,4 +16,5 @@
 - [x] create the model DTOs
 
 - [ ] add signal R
+  - [ ] a naive approach to staff chat
 - [ ] Error handling & custom error pages
