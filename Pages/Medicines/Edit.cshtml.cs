@@ -58,11 +58,9 @@ namespace pharmacy.Pages.Medicines
                 return NotFound();
             }
             Medicine = medicine;
+            SelectedSupplierIds = medicine.Suppliers.Select(s => s.Id).ToList();
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
-            ViewData["Suppliers"] = new MultiSelectList(
-                _context.Suppliers, "Id", "Name",
-                medicine.Suppliers.Select(s => s.Id)
-            );
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, "Id", "Name");
             return Page();
         }
 
@@ -71,10 +69,7 @@ namespace pharmacy.Pages.Medicines
         public async Task<IActionResult> OnPostAsync()
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
-            ViewData["Suppliers"] = new MultiSelectList(
-                _context.Suppliers, "Id", "Name",
-                SelectedSupplierIds
-            );
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, "Id", "Name");
             if (!ModelState.IsValid)
             {
                 return Page();

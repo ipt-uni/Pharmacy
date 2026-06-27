@@ -45,7 +45,7 @@ namespace pharmacy.Pages.Medicines
         public IActionResult OnGet()
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
-            ViewData["Suppliers"] = new MultiSelectList(_context.Suppliers, "Id", "Name");
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, "Id", "Name");
             return Page();
         }
 
@@ -58,6 +58,8 @@ namespace pharmacy.Pages.Medicines
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, "Id", "Name");
             if (!ModelState.IsValid)
             {
                 foreach (var entry in ModelState)
