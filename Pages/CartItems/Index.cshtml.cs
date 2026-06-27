@@ -131,4 +131,21 @@ public class IndexModel : PageModel
         await _context.SaveChangesAsync();
         return RedirectToPage();
     }
+
+    public async Task<IActionResult> OnPostCheckout()
+    {
+        var userId = _userManager.GetUserId(User);
+
+        var cart = await _context
+            .Carts.Include(c => c.CartItems)
+            .FirstOrDefaultAsync(c => c.Customer.UserId == userId && c.Payment == null);
+
+        if (cart == null || !cart.CartItems.Any())
+            return RedirectToPage();
+
+        cart.Payment = new Payment { Amount = cart.TotalCost, CartId = cart.Id };
+        await _context.SaveChangesAsync();
+
+        return RedirectToPage();
+    }
 }
