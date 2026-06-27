@@ -23,6 +23,7 @@ Cart || -- o{ CartItem : "Contains"
 Medicine || -- o{ CartItem : "Is in"
 Supplier }o -- o{ Medicine : "Supplies"
 Payment o| -- || Cart : "Pays"
+Customer || -- o{ Cart : "Has"
 
 Medicine{
     id Integer PK
@@ -41,8 +42,7 @@ Supplier{
 }
 Cart{
     id Integer PK
-    total_cost decimal
-    total_quantity int
+    customer_id int FK
 }
 CartItem{
     id Integer PK
