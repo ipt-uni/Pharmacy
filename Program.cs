@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using pharmacy.Data;
 using pharmacy.Data.Seed;
+using pharmacy.Hubs;
 using pharmacy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ builder
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -82,6 +84,7 @@ app.UseAuthorization();
 app.SeedDatabase();
 
 app.MapStaticAssets();
+app.MapHub<ChatHub>("/chat");
 app.MapRazorPages().WithStaticAssets();
 
 app.Run();
