@@ -7,7 +7,7 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-  </div>
+</div>
 
 <!--
 1. We want to make a grid of cards for medicines
@@ -25,29 +25,32 @@
             <div class="card h-100 shadow-hover">
                 @if (!string.IsNullOrEmpty(item.imageSrc))
                 {
-                    <img src="@item.imageSrc"  alt="@item.Name" 
-                         style="height: 200px; object-fit: contain;" />
+                    <img src="@item.imageSrc" alt="@item.Name" style="height: 200px; object-fit: contain;" />
                 }
                 else
                 {
-                    <div class="bg-light d-flex align-items-center justify-content-center" 
-                         style="height: 200px;">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
                         <p class="text-muted fs-1">@item.Name</p>
                     </div>
+
+
                 }
                 <div class="card-body">
                     <h4 class="fw-bold">@item.Name</h4>
                     <p class="text-muted small mb-3">
-                        <i class="bi bi-building">@item.Company?.Name</i> 
+                        <i class="bi bi-building">@item.Company?.Name</i>
                     </p>
                     <h3 class="text-primary fw-bold mb-3">@item.RetailPrice.ToString("C")</h3>
                     <p class="card-text small text-muted mb-0">
                         @item.Suppliers.Count supplier@(item.Suppliers.Count != 1 ? "s" : "")
                     </p>
                 </div>
-                <div class="card-footer bg-white border-0 pt-0">
-                    <a asp-page="Medicines/Details" asp-route-id="@item.Id"
-                       class="btn btn-primary w-100">
+                <div class="card-footer bg-white border-0 pt-0 d-grid gap-1">
+                    <form method="post" asp-page="/CartItems/Index" asp-page-handler="AddToCart"
+                          asp-route-medicineId="@item.Id" style="display:inline">
+                        <button type="submit" class="btn btn-success w-100">Add to Cart</button>
+                    </form>
+                    <a asp-page="Medicines/Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">
                         View Details
                     </a>
                 </div>
