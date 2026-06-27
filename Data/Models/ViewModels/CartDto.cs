@@ -1,5 +1,8 @@
 namespace pharmacy.Data.Models.ViewModels;
 
+/// <summary>
+/// API DTO for Cart, including computed totals and nested items.
+/// </summary>
 public class CartDto
 {
     public int Id { get; set; }

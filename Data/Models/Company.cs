@@ -1,9 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace pharmacy.Data.Models;
 
+/// <summary>
+/// A pharmaceutical company that manufactures medicines.
+/// </summary>
 public class Company
 {
     [Key]

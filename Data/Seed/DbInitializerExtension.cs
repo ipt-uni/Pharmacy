@@ -3,6 +3,9 @@ using pharmacy.Data;
 
 namespace pharmacy.Data.Seed;
 
+/// <summary>
+/// Extension method to run the database seeder at application startup.
+/// </summary>
 public static class DbInitializerExtensions
 {
     public static IApplicationBuilder SeedDatabase(this IApplicationBuilder app)

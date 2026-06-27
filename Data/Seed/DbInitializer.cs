@@ -6,6 +6,11 @@ namespace pharmacy.Data;
 
 public static class DbInitializer
 {
+    /// <summary>
+    /// Seeds the database with initial roles, companies, suppliers, medicines,
+    /// and sample user accounts (both Customer and Staff).
+    /// Skips seeding if any companies already exist.
+    /// </summary>
     public static async Task Seed(
         ApplicationDbContext context,
         UserManager<IdentityUser> userManager,
@@ -15,12 +20,14 @@ public static class DbInitializer
         if (await context.Companies.AnyAsync())
             return;
 
+        // 1. Create the two roles used for authorization
         foreach (var role in new[] { "Customer", "Staff" })
         {
             if (!await roleManager.RoleExistsAsync(role))
                 await roleManager.CreateAsync(new IdentityRole(role));
         }
 
+        // 2. Seed product companies
         var companies = new[]
         {
             new Company { Name = "Sanofi India Ltd" },
@@ -55,6 +62,7 @@ public static class DbInitializer
         context.Companies.AddRange(companies);
         await context.SaveChangesAsync();
 
+        // 3. Seed suppliers
         var suppliers = new[]
         {
             new Supplier { Name = "MedSupply Co" },
@@ -74,6 +82,7 @@ public static class DbInitializer
         var c = companies;
         var s = suppliers;
 
+        // 4. Define raw medicine data with name, price, company reference and image URL
         var rawMeds = new[]
         {
             (
@@ -318,6 +327,8 @@ public static class DbInitializer
             ),
         };
 
+        // 5. Build Medicine entities from raw data,
+        //    assigning each to its company and 2 random suppliers
         var medicines = rawMeds
             .Select(m => new Medicine
             {
@@ -336,6 +347,7 @@ public static class DbInitializer
         context.Medicines.AddRange(medicines);
         await context.SaveChangesAsync();
 
+        // 6. Create sample customer accounts with profile data
         var customerData = new (
             string email,
             string firstName,
@@ -371,6 +383,7 @@ public static class DbInitializer
             ("staff10@test.com", "Laura", "Scott", 33),
         };
 
+        // For each customer: create IdentityUser, assign Customer role, create Customer profile
         foreach (var c2 in customerData)
         {
             var user = new IdentityUser
@@ -397,6 +410,7 @@ public static class DbInitializer
             }
         }
 
+        // For each staff: create IdentityUser, assign Staff role, create NonCustomer profile
         foreach (var s2 in staffData)
         {
             var user = new IdentityUser

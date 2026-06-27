@@ -1,5 +1,8 @@
 namespace pharmacy.Data.Models.ViewModels;
 
+/// <summary>
+/// API DTO for Customer profile.
+/// </summary>
 public class CustomerDto
 {
     public int Id { get; set; }

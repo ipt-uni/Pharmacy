@@ -1,5 +1,8 @@
 namespace pharmacy.Data.Models.ViewModels;
 
+/// <summary>
+/// API DTO for Payment.
+/// </summary>
 public class PaymentDto
 {
     public int Id { get; set; }

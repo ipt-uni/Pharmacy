@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
 namespace pharmacy.Data.Models;
 
+/// <summary>
+/// A shopping cart belonging to a customer. A null Payment means the cart is unpaid.
+/// </summary>
 public class Cart
 {
     [Key]

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharmacy.Data.Models;
 
+/// <summary>
+/// A single line item within a cart, linking a medicine with a quantity and price snapshot.
+/// </summary>
 public class CartItem
 {
     [Key]

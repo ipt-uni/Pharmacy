@@ -1,8 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharmacy.Data.Models;
 
+/// <summary>
+/// Profile extension for users with the Customer role.
+/// Includes address and phone details needed for orders.
+/// </summary>
 public class Customer : MyUser
 {
     [Required]

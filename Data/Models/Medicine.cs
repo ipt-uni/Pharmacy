@@ -3,11 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharmacy.Data.Models;
 
+/// <summary>
+/// Represents a pharmaceutical product sold in the pharmacy.
+/// </summary>
 public class Medicine
 {
     [Key]
     public int Id { get; set; }
 
+    /// <summary>
+    /// Foreign key to the company that manufactures this medicine.
+    /// </summary>
     [Required]
     [ForeignKey(nameof(Company))]
     public int CompanyId { get; set; }
