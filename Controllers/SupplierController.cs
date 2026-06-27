@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for Supplier CRUD operations.
+    /// Routes: api/Supplier
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SupplierController : ControllerBase
@@ -22,7 +26,10 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/Supplier
+        /// <summary>
+        /// Retrieves all suppliers mapped to DTOs.
+        /// GET: api/Supplier
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SupplierDto>>> GetSupplier()
         {
@@ -35,7 +42,11 @@ namespace pharmacy.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Supplier/5
+        /// <summary>
+        /// Retrieves a single supplier by id.
+        /// Returns 404 if not found.
+        /// GET: api/Supplier/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<SupplierDto>> GetSupplier(int id)
         {
@@ -54,8 +65,12 @@ namespace pharmacy.Controllers
             return supplier;
         }
 
-        // PUT: api/Supplier/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing supplier.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/Supplier/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSupplier(int id, Supplier supplier)
         {
@@ -85,8 +100,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/Supplier
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new supplier and returns the created resource with its new id.
+        /// POST: api/Supplier
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Supplier>> PostSupplier(Supplier supplier)
         {
@@ -96,7 +113,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetSupplier", new { id = supplier.Id }, supplier);
         }
 
-        // DELETE: api/Supplier/5
+        /// <summary>
+        /// Deletes a supplier by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/Supplier/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSupplier(int id)
         {
@@ -112,6 +132,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a supplier with the given id exists.
+        /// </summary>
         private bool SupplierExists(int id)
         {
             return _context.Suppliers.Any(e => e.Id == id);

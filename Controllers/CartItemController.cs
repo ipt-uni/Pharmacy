@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for CartItem CRUD operations.
+    /// Routes: api/CartItem
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CartItemController : ControllerBase
@@ -22,7 +26,10 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/CartItem
+        /// <summary>
+        /// Retrieves all cart items with their medicine names.
+        /// GET: api/CartItem
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CartItemDto>>> GetCartItem()
         {
@@ -40,7 +47,11 @@ namespace pharmacy.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/CartItem/5
+        /// <summary>
+        /// Retrieves a single cart item by id.
+        /// Returns 404 if not found.
+        /// GET: api/CartItem/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<CartItemDto>> GetCartItem(int id)
         {
@@ -64,8 +75,12 @@ namespace pharmacy.Controllers
             return cartItem;
         }
 
-        // PUT: api/CartItem/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing cart item.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/CartItem/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCartItem(int id, CartItem cartItem)
         {
@@ -95,8 +110,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/CartItem
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new cart item and returns the created resource with its new id.
+        /// POST: api/CartItem
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<CartItem>> PostCartItem(CartItem cartItem)
         {
@@ -106,7 +123,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetCartItem", new { id = cartItem.Id }, cartItem);
         }
 
-        // DELETE: api/CartItem/5
+        /// <summary>
+        /// Deletes a cart item by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/CartItem/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCartItem(int id)
         {
@@ -122,6 +142,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a cart item with the given id exists.
+        /// </summary>
         private bool CartItemExists(int id)
         {
             return _context.CartItems.Any(e => e.Id == id);

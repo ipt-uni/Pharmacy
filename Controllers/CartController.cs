@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for Cart CRUD operations.
+    /// Routes: api/Cart
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -22,10 +26,14 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/Cart
+        /// <summary>
+        /// Retrieves all carts with nested items and payment status.
+        /// GET: api/Cart
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CartDto>>> GetCart()
         {
+            // 1. Query all carts with their related customer, items, medicine details, and payment
             var carts = await _context.Carts
                 .Include(c => c.Customer)
                 .Include(c => c.CartItems)
@@ -33,6 +41,7 @@ namespace pharmacy.Controllers
                 .Include(c => c.Payment)
                 .ToListAsync();
 
+            // 2. Build response DTOs with computed totals and nested item DTOs
             var dtos = carts.Select(c => new CartDto
             {
                 Id = c.Id,
@@ -55,10 +64,15 @@ namespace pharmacy.Controllers
             return dtos;
         }
 
-        // GET: api/Cart/5
+        /// <summary>
+        /// Retrieves a single cart by id with nested items and payment status.
+        /// Returns 404 if not found.
+        /// GET: api/Cart/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<CartDto>> GetCart(int id)
         {
+            // 1. Query the specific cart with related data
             var cart = await _context.Carts
                 .Include(c => c.Customer)
                 .Include(c => c.CartItems)
@@ -69,6 +83,7 @@ namespace pharmacy.Controllers
             if (cart == null)
                 return NotFound();
 
+            // 2. Build response DTO with computed totals and nested item DTOs
             var dto = new CartDto
             {
                 Id = cart.Id,
@@ -91,8 +106,12 @@ namespace pharmacy.Controllers
             return dto;
         }
 
-        // PUT: api/Cart/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing cart.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/Cart/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCart(int id, Cart cart)
         {
@@ -122,8 +141,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/Cart
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new cart and returns the created resource with its new id.
+        /// POST: api/Cart
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
@@ -133,7 +154,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetCart", new { id = cart.Id }, cart);
         }
 
-        // DELETE: api/Cart/5
+        /// <summary>
+        /// Deletes a cart by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/Cart/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCart(int id)
         {
@@ -149,6 +173,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a cart with the given id exists.
+        /// </summary>
         private bool CartExists(int id)
         {
             return _context.Carts.Any(e => e.Id == id);

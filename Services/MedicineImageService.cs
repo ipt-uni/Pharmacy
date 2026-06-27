@@ -1,5 +1,9 @@
 namespace pharmacy.Services;
 
+/// <summary>
+/// Result returned by ProcessImageAsync indicating success/failure
+/// with the final image path or an error message.
+/// </summary>
 public class ImageUploadResult
 {
     public bool Success { get; set; }
@@ -8,6 +12,9 @@ public class ImageUploadResult
     public string? ErrorField { get; set; } // Model error field name
 }
 
+/// <summary>
+/// Handles processing of medicine images from file uploads or URLs.
+/// </summary>
 public class MedicineImageService
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -17,21 +24,14 @@ public class MedicineImageService
         _webHostEnvironment = webHostEnvironment;
     }
 
+    /// <summary>
+    /// Determines the image source for a medicine from either a file upload or a URL.
+    /// Returns an ImageUploadResult indicating success/failure with the final image path or an error message.
+    /// </summary>
     public async Task<ImageUploadResult> ProcessImageAsync(IFormFile? imageFile, string? imageUrl)
     {
         Console.WriteLine($"Debug: ProcessImageAsync: {imageUrl}");
-        /// 1. is to check whether there is a file upload or image url.
-        /// They can't be both
-        /// 2. if it is file:
-        ///    2.1 if the file is an image
-        ///        Then specify it's name
-        ///        assign the full image path to Medicine object
-        ///        save the file
-        ///     otherwise:
-        ///       throw an error indicating that the file is not an image
-        /// 3. if it is url:
-        ///    just set it and don't check much
-        /// 4. there can't be both image url and image file.
+        // 1. Ensure only one source is provided — reject if both file and URL are present
         if (imageFile != null && !string.IsNullOrEmpty(imageUrl))
         {
             Console.WriteLine("Debug: ImageFile with ImageURL");
@@ -43,6 +43,7 @@ public class MedicineImageService
             };
         }
 
+        // 2. Handle file upload: validate content type, generate unique filename, save to disk
         if (imageFile != null && imageFile.Length > 0)
         {
             Console.WriteLine("Debug: ImageFile");
@@ -89,13 +90,14 @@ public class MedicineImageService
             return new ImageUploadResult { Success = true, ImageSrc = "/images/" + imageName };
         }
 
+        // 3. Handle URL: accept as-is
         if (!string.IsNullOrEmpty(imageUrl))
         {
             Console.WriteLine("Debug: ImageURL");
             return new ImageUploadResult { Success = true, ImageSrc = imageUrl };
         }
 
-        // No file, no URL — nothing to do, not necessarily an error
+        // 4. Neither provided — not an error, just leave imageSrc as null
         return new ImageUploadResult { Success = true, ImageSrc = null };
     }
 }

@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for Customer CRUD operations.
+    /// Routes: api/Customer
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -22,7 +26,10 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/Customer
+        /// <summary>
+        /// Retrieves all customers mapped to DTOs.
+        /// GET: api/Customer
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomer()
         {
@@ -40,7 +47,11 @@ namespace pharmacy.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Customer/5
+        /// <summary>
+        /// Retrieves a single customer by id.
+        /// Returns 404 if not found.
+        /// GET: api/Customer/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerDto>> GetCustomer(int id)
         {
@@ -64,8 +75,12 @@ namespace pharmacy.Controllers
             return customer;
         }
 
-        // PUT: api/Customer/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing customer.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/Customer/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
@@ -95,8 +110,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/Customer
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new customer and returns the created resource with its new id.
+        /// POST: api/Customer
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
@@ -106,7 +123,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
         }
 
-        // DELETE: api/Customer/5
+        /// <summary>
+        /// Deletes a customer by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/Customer/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
@@ -122,6 +142,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a customer with the given id exists.
+        /// </summary>
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.Id == id);

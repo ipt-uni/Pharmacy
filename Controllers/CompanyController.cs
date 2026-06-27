@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for Company CRUD operations.
+    /// Routes: api/Company
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CompanyController : ControllerBase
@@ -22,7 +26,10 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/Company
+        /// <summary>
+        /// Retrieves all companies mapped to DTOs.
+        /// GET: api/Company
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany()
         {
@@ -35,7 +42,11 @@ namespace pharmacy.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Company/5
+        /// <summary>
+        /// Retrieves a single company by id.
+        /// Returns 404 if not found.
+        /// GET: api/Company/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
@@ -54,8 +65,12 @@ namespace pharmacy.Controllers
             return company;
         }
 
-        // PUT: api/Company/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing company.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/Company/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany(int id, Company company)
         {
@@ -85,8 +100,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/Company
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new company and returns the created resource with its new id.
+        /// POST: api/Company
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
@@ -96,7 +113,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetCompany", new { id = company.Id }, company);
         }
 
-        // DELETE: api/Company/5
+        /// <summary>
+        /// Deletes a company by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/Company/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
@@ -112,6 +132,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a company with the given id exists.
+        /// </summary>
         private bool CompanyExists(int id)
         {
             return _context.Companies.Any(e => e.Id == id);

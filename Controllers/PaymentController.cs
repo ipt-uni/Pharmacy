@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for Payment CRUD operations.
+    /// Routes: api/Payment
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController : ControllerBase
@@ -22,7 +26,10 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/Payment
+        /// <summary>
+        /// Retrieves all payments mapped to DTOs.
+        /// GET: api/Payment
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaymentDto>>> GetPayment()
         {
@@ -36,7 +43,11 @@ namespace pharmacy.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Payment/5
+        /// <summary>
+        /// Retrieves a single payment by id.
+        /// Returns 404 if not found.
+        /// GET: api/Payment/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentDto>> GetPayment(int id)
         {
@@ -56,8 +67,12 @@ namespace pharmacy.Controllers
             return payment;
         }
 
-        // PUT: api/Payment/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing payment.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/Payment/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
@@ -87,8 +102,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/Payment
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new payment and returns the created resource with its new id.
+        /// POST: api/Payment
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
@@ -98,7 +115,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
         }
 
-        // DELETE: api/Payment/5
+        /// <summary>
+        /// Deletes a payment by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/Payment/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {
@@ -114,6 +134,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a payment with the given id exists.
+        /// </summary>
         private bool PaymentExists(int id)
         {
             return _context.Payments.Any(e => e.Id == id);

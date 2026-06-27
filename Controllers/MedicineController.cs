@@ -11,6 +11,10 @@ using pharmacy.Data.Models.ViewModels;
 
 namespace pharmacy.Controllers
 {
+    /// <summary>
+    /// REST API controller for Medicine CRUD operations.
+    /// Routes: api/Medicine
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MedicineController : ControllerBase
@@ -22,10 +26,15 @@ namespace pharmacy.Controllers
             _context = context;
         }
 
-        // GET: api/Medicine
+        /// <summary>
+        /// Retrieves all medicines with their company and supplier details.
+        /// GET: api/Medicine
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MedicineDto>>> GetMedicine()
         {
+            // Query all medicines including related Company and Suppliers,
+            // then project to flattened MedicineDto
             return await _context.Medicines
                 .Include(m => m.Company)
                 .Include(m => m.Suppliers)
@@ -41,7 +50,11 @@ namespace pharmacy.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Medicine/5
+        /// <summary>
+        /// Retrieves a single medicine by id with company and supplier details.
+        /// Returns 404 if not found.
+        /// GET: api/Medicine/5
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<MedicineDto>> GetMedicine(int id)
         {
@@ -66,8 +79,12 @@ namespace pharmacy.Controllers
             return medicine;
         }
 
-        // PUT: api/Medicine/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates an existing medicine.
+        /// Returns 400 if the route id doesn't match the body id,
+        /// 404 if not found, 204 on success.
+        /// PUT: api/Medicine/5
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMedicine(int id, Medicine medicine)
         {
@@ -97,8 +114,10 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
-        // POST: api/Medicine
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Creates a new medicine and returns the created resource with its new id.
+        /// POST: api/Medicine
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Medicine>> PostMedicine(Medicine medicine)
         {
@@ -108,7 +127,10 @@ namespace pharmacy.Controllers
             return CreatedAtAction("GetMedicine", new { id = medicine.Id }, medicine);
         }
 
-        // DELETE: api/Medicine/5
+        /// <summary>
+        /// Deletes a medicine by id. Returns 404 if not found, 204 on success.
+        /// DELETE: api/Medicine/5
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMedicine(int id)
         {
@@ -124,6 +146,9 @@ namespace pharmacy.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns true if a medicine with the given id exists.
+        /// </summary>
         private bool MedicineExists(int id)
         {
             return _context.Medicines.Any(e => e.Id == id);
