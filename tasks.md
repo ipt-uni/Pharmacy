@@ -12,8 +12,8 @@
 - [x] create dbinitializer for easier testing
 - [x] scaffold views for the required models
 - [x] implement authentication and authorization
-- [ ] add mvc API controllers
-- [ ] create the model DTOs
-- [ ] add signal R
+- [x] add mvc API controllers
+- [x] create the model DTOs
 
+- [ ] add signal R
 - [ ] Error handling & custom error pages
