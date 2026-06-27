@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ namespace pharmacy.Pages.Companies
     /// <summary>
     /// Edit an existing company.
     /// </summary>
+    [Authorize(Roles = "Staff")]
     public class EditModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;

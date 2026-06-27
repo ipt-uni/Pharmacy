@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace pharmacy.Pages.Payments
     /// <summary>
     /// Delete confirmation and execution page for payments.
     /// </summary>
+    [Authorize(Roles = "Staff")]
     public class DeleteModel : PageModel
     {
         private readonly pharmacy.Data.ApplicationDbContext _context;
