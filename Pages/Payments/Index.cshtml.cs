@@ -19,12 +19,14 @@ namespace pharmacy.Pages.Payments
             _context = context;
         }
 
-        public IList<Payment> Payment { get;set; } = default!;
+        public IList<Payment> Payment { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Payment = await _context.Payments
-                .Include(p => p.Cart).ToListAsync();
+            Payment = await _context
+                .Payments.Include(p => p.Cart)
+                .Include(p => p.Cart.Customer)
+                .ToListAsync();
         }
     }
 }

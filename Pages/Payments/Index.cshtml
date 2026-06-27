@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.Payment[0].Cart)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Payment[0].Cart.Customer.FirstName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Payment[0].Amount)
             </th>
             <th></th>
@@ -27,6 +30,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Cart.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cart.Customer.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
