@@ -1,10 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using pharmacy.Data;
 using pharmacy.Data.Seed;
 using pharmacy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add controllers
+
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 
 // Add services to the container.
 var connectionString =
@@ -52,6 +58,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.MapOpenApi();
     app.UseSwaggerUi(options =>
     {
         options.DocumentPath = "/openapi/v1.json";
@@ -63,6 +70,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.MapControllers();
 
 app.UseHttpsRedirection();
 
