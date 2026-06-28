@@ -38,6 +38,20 @@ namespace pharmacy.Pages.Companies
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            /// We don't want empty company names and companies that already exist.
+            /// But we also are not going to just do return Page because then user will not
+            /// know what is the problem.
+            if (string.IsNullOrWhiteSpace(Company.Name))
+            {
+                ModelState.AddModelError("Company.Name", "Company name cannot be empty.");
+            }
+            if (_context.Companies.Any(c => c.Name == Company.Name))
+            {
+                ModelState.AddModelError(
+                    "Company.Name",
+                    "A company with that name already exists."
+                );
+            }
             if (!ModelState.IsValid)
             {
                 return Page();

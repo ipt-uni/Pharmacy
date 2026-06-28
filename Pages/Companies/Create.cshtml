@@ -1,22 +1,22 @@
 @page
 @model pharmacy.Pages.Companies.CreateModel
 
-        @{
-        ViewData["Title"] = "Create";
-        }
-        
-        <h1>Create</h1>
-        
-    <h4>Company</h4>
-    <hr />
-    <div class="row">
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Company</h4>
+<hr />
+<div class="row">
     <div class="col-md-4">
-    <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <span class="text-danger">*</span>
                 <label asp-for="Company.Name" class="control-label"></label>
-                <input asp-for="Company.Name" class="form-control" aria-required="true"/>
+                <input asp-for="Company.Name" class="form-control" aria-required="true" />
                 <span asp-validation-for="Company.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,5 +31,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
