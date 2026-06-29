@@ -33,7 +33,7 @@ namespace pharmacy.Pages.Companies
         }
 
         [BindProperty]
-        public Company Company { get; set; } = default!;
+        public String CompanyName { get; set; } = string.Empty;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -41,23 +41,20 @@ namespace pharmacy.Pages.Companies
             /// We don't want empty company names and companies that already exist.
             /// But we also are not going to just do return Page because then user will not
             /// know what is the problem.
-            if (string.IsNullOrWhiteSpace(Company.Name))
+            if (string.IsNullOrWhiteSpace(CompanyName))
             {
-                ModelState.AddModelError("Company.Name", "Company name cannot be empty.");
+                ModelState.AddModelError("CompanyName", "Company name cannot be empty.");
             }
-            if (_context.Companies.Any(c => c.Name == Company.Name))
+            if (_context.Companies.Any(c => c.Name == CompanyName))
             {
-                ModelState.AddModelError(
-                    "Company.Name",
-                    "A company with that name already exists."
-                );
+                ModelState.AddModelError("CompanyName", "A company with that name already exists.");
             }
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Companies.Add(Company);
+            _context.Companies.Add(new Company { Name = CompanyName });
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
