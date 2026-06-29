@@ -24,7 +24,6 @@ namespace pharmacy.Pages.Companies
             _context = context;
         }
 
-        [BindProperty]
         public Company Company { get; set; } = default!;
 
         /// <summary>
