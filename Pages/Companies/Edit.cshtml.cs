@@ -38,7 +38,7 @@ namespace pharmacy.Pages.Companies
                 return NotFound();
             }
 
-            var company =  await _context.Companies.FirstOrDefaultAsync(m => m.Id == id);
+            var company = await _context.Companies.FindAsync(id);
             if (company == null)
             {
                 return NotFound();
@@ -49,32 +49,26 @@ namespace pharmacy.Pages.Companies
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Company).State = EntityState.Modified;
+            var companyToUpdate = await _context.Companies.FindAsync(id);
 
-            try
+            if (companyToUpdate == null)
+            {
+                return NotFound();
+            }
+            if (await TryUpdateModelAsync(companyToUpdate, "Company", c => c.Name))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyExists(Company.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         /// <summary>
